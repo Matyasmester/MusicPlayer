@@ -39,6 +39,9 @@
             this.Duration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PlaybackLabel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.VolumeBar = new System.Windows.Forms.TrackBar();
+            this.SongProgressBar = new System.Windows.Forms.ProgressBar();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).BeginInit();
             this.SuspendLayout();
             // 
             // PlayButton
@@ -94,11 +97,12 @@
             this.SongsListView.TabIndex = 3;
             this.SongsListView.UseCompatibleStateImageBehavior = false;
             this.SongsListView.View = System.Windows.Forms.View.Details;
+            this.SongsListView.SelectedIndexChanged += new System.EventHandler(this.SongsListView_SelectedIndexChanged);
             // 
             // Title
             // 
             this.Title.Text = "Title";
-            this.Title.Width = 250;
+            this.Title.Width = 280;
             // 
             // Artist
             // 
@@ -108,7 +112,7 @@
             // Duration
             // 
             this.Duration.Text = "Duration";
-            this.Duration.Width = 100;
+            this.Duration.Width = 80;
             // 
             // PlaybackLabel
             // 
@@ -120,6 +124,26 @@
             this.PlaybackLabel.TabIndex = 4;
             this.PlaybackLabel.Text = "Playback stopped.";
             // 
+            // VolumeBar
+            // 
+            this.VolumeBar.Location = new System.Drawing.Point(431, 12);
+            this.VolumeBar.Maximum = 100;
+            this.VolumeBar.Name = "VolumeBar";
+            this.VolumeBar.Size = new System.Drawing.Size(104, 45);
+            this.VolumeBar.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.VolumeBar, "Volume");
+            this.VolumeBar.Value = 100;
+            this.VolumeBar.Scroll += new System.EventHandler(this.VolumeBar_Scroll);
+            // 
+            // SongProgressBar
+            // 
+            this.SongProgressBar.Location = new System.Drawing.Point(431, 63);
+            this.SongProgressBar.Name = "SongProgressBar";
+            this.SongProgressBar.Size = new System.Drawing.Size(104, 15);
+            this.SongProgressBar.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.SongProgressBar, "Song progress");
+            this.SongProgressBar.Click += new System.EventHandler(this.SongProgressBar_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -127,6 +151,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(594, 651);
+            this.Controls.Add(this.SongProgressBar);
+            this.Controls.Add(this.VolumeBar);
             this.Controls.Add(this.PlaybackLabel);
             this.Controls.Add(this.SongsListView);
             this.Controls.Add(this.PauseButton);
@@ -137,6 +163,7 @@
             this.Name = "MainForm";
             this.Text = "Music Player";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,6 +180,8 @@
         private System.Windows.Forms.ColumnHeader Artist;
         private System.Windows.Forms.Label PlaybackLabel;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TrackBar VolumeBar;
+        private System.Windows.Forms.ProgressBar SongProgressBar;
     }
 }
 

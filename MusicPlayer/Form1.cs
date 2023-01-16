@@ -28,6 +28,12 @@ namespace MusicPlayer
             this.AllowDrop = true;
             this.DragEnter += MainForm_DragEnter;
             this.DragDrop += MainForm_DragDrop;
+            SongsListView.DoubleClick += SongsListView_DoubleClick;
+        }
+
+        private void SongsListView_DoubleClick(object sender, EventArgs e)
+        {
+            PlayButton.PerformClick();
         }
 
         private void MainForm_DragDrop(object sender, DragEventArgs e)
@@ -36,7 +42,7 @@ namespace MusicPlayer
 
             foreach(string file in files)
             {
-                if(!IsValidMP3File(file)) continue;
+                if(!IsValidMusicFile(file)) continue;
 
                 Paths.Add(file);
 
@@ -73,13 +79,13 @@ namespace MusicPlayer
             return properties;
         }
 
-        private bool IsValidMP3File(string path)
+        private bool IsValidMusicFile(string path)
         {
             FileInfo info = new FileInfo(path);
 
             IWMPMedia media = player.newMedia(path);
 
-            return info.Extension.Equals(".mp3") && media.duration > 0;
+            return (info.Extension.Equals(".mp3") || info.Extension.Equals(".flac")) && media.duration > 0;
         }
 
         private void PlayMP3File(string path)
@@ -142,6 +148,21 @@ namespace MusicPlayer
             timePausedAt = player.controls.currentPosition;
 
             player.controls.pause();
+        }
+
+        private void VolumeBar_Scroll(object sender, EventArgs e)
+        {
+            player.settings.volume = VolumeBar.Value;
+        }
+
+        private void SongsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SongProgressBar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
