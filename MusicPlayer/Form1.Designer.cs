@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.PlayButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.PauseButton = new System.Windows.Forms.Button();
             this.SongsListView = new System.Windows.Forms.ListView();
             this.Title = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Duration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Artist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Duration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PlaybackLabel = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // PlayButton
@@ -47,6 +49,7 @@
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(40, 40);
             this.PlayButton.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.PlayButton, "Start / Resume playback ");
             this.PlayButton.UseVisualStyleBackColor = true;
             this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
@@ -58,6 +61,7 @@
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(40, 40);
             this.StopButton.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.StopButton, "Stop playback");
             this.StopButton.UseVisualStyleBackColor = true;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
@@ -69,6 +73,7 @@
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(40, 40);
             this.PauseButton.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.PauseButton, "Pause / Resume playback");
             this.PauseButton.UseVisualStyleBackColor = true;
             this.PauseButton.Click += new System.EventHandler(this.PauseButton_Click);
             // 
@@ -93,17 +98,17 @@
             // Title
             // 
             this.Title.Text = "Title";
-            this.Title.Width = 165;
-            // 
-            // Duration
-            // 
-            this.Duration.Text = "Duration";
-            this.Duration.Width = 195;
+            this.Title.Width = 250;
             // 
             // Artist
             // 
             this.Artist.Text = "Artist / Album";
             this.Artist.Width = 179;
+            // 
+            // Duration
+            // 
+            this.Duration.Text = "Duration";
+            this.Duration.Width = 100;
             // 
             // PlaybackLabel
             // 
@@ -147,6 +152,7 @@
         private System.Windows.Forms.ColumnHeader Duration;
         private System.Windows.Forms.ColumnHeader Artist;
         private System.Windows.Forms.Label PlaybackLabel;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

@@ -18,6 +18,10 @@ namespace MusicPlayer
 
         private List<string> Paths = new List<string>();
 
+        private const double NONE = 0.00;
+        private double timePausedAt = NONE;
+        private bool IsPaused = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -85,13 +89,30 @@ namespace MusicPlayer
             player.controls.play();
         }
 
+        private void ResumePlay()
+        {
+            player.controls.currentPosition = timePausedAt;
+
+            player.controls.play();
+
+            IsPaused = false;
+        }
+
         private void PlayButton_Click(object sender, EventArgs e)
         {
+            if (IsPaused)
+            {
+                ResumePlay();
+                return;
+            }
+
             foreach (int index in SongsListView.SelectedIndices)
             {
                 string current = Paths[index];
 
                 PlayMP3File(current);
+
+                IsPaused = false;
 
                 PlaybackLabel.Text = "Now playing: " + SongsListView.SelectedItems[0].Text;
             }
@@ -101,11 +122,25 @@ namespace MusicPlayer
         {
             player.controls.stop();
 
+            timePausedAt = NONE;
+
+            IsPaused = false;
+
             PlaybackLabel.Text = "Playback stopped.";
         }
 
         private void PauseButton_Click(object sender, EventArgs e)
         {
+            if (IsPaused)
+            {
+                ResumePlay();
+                return;
+            }
+
+            IsPaused = true;
+
+            timePausedAt = player.controls.currentPosition;
+
             player.controls.pause();
         }
     }
