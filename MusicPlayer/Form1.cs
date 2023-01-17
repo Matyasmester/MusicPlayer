@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Reflection;
+using TagLib;
 
 namespace MusicPlayer
 {
@@ -68,13 +68,14 @@ namespace MusicPlayer
         {
             FileInfo info = new FileInfo(path);
 
-            IWMPMedia media = player.newMedia(path);
+            TagLib.File tagFile = TagLib.File.Create(path);
+            Tag tag = tagFile.Tag;
 
             string[] properties = new string[3];
 
-            properties[0] = info.Name.TrimEnd(info.Extension.ToCharArray());
-            properties[1] = "";
-            properties[2] = media.durationString;
+            properties[0] = tag.Title;
+            properties[1] = tag.FirstAlbumArtist + " - " + tag.Album;
+            properties[2] = tagFile.Properties.Duration.ToString(@"mm\:ss");
 
             return properties;
         }
@@ -88,7 +89,7 @@ namespace MusicPlayer
             return (info.Extension.Equals(".mp3") || info.Extension.Equals(".flac")) && media.duration > 0;
         }
 
-        private void PlayMP3File(string path)
+        private void PlayMusicFile(string path)
         {
             player.URL = path;
 
@@ -116,10 +117,11 @@ namespace MusicPlayer
             {
                 string current = Paths[index];
 
-                PlayMP3File(current);
+                PlayMusicFile(current);
 
                 IsPaused = false;
 
+                // MultiSelect on SongsListView is set to false, meaning there can only be 1 selected item at a time
                 PlaybackLabel.Text = "Now playing: " + SongsListView.SelectedItems[0].Text;
             }
         }

@@ -102,12 +102,12 @@
             // Title
             // 
             this.Title.Text = "Title";
-            this.Title.Width = 280;
+            this.Title.Width = 240;
             // 
             // Artist
             // 
             this.Artist.Text = "Artist / Album";
-            this.Artist.Width = 179;
+            this.Artist.Width = 220;
             // 
             // Duration
             // 
