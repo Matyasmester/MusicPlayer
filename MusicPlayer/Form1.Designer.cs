@@ -137,9 +137,9 @@
             // 
             // SongProgressBar
             // 
-            this.SongProgressBar.Location = new System.Drawing.Point(431, 63);
+            this.SongProgressBar.Location = new System.Drawing.Point(431, 76);
             this.SongProgressBar.Name = "SongProgressBar";
-            this.SongProgressBar.Size = new System.Drawing.Size(104, 15);
+            this.SongProgressBar.Size = new System.Drawing.Size(151, 15);
             this.SongProgressBar.TabIndex = 6;
             this.toolTip1.SetToolTip(this.SongProgressBar, "Song progress");
             this.SongProgressBar.Click += new System.EventHandler(this.SongProgressBar_Click);

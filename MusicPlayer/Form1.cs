@@ -5,7 +5,6 @@ using System.Data;
 using WMPLib;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using TagLib;
@@ -22,13 +21,24 @@ namespace MusicPlayer
         private double timePausedAt = NONE;
         private bool IsPaused = false;
 
+        private Timer progressUpdateTimer = new Timer();
+
         public MainForm()
         {
             InitializeComponent();
             this.AllowDrop = true;
             this.DragEnter += MainForm_DragEnter;
             this.DragDrop += MainForm_DragDrop;
+
             SongsListView.DoubleClick += SongsListView_DoubleClick;
+
+            progressUpdateTimer.Tick += ProgressUpdateTimer_Tick;
+            progressUpdateTimer.Interval = 1000;
+        }
+
+        private void ProgressUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            SongProgressBar.Value = (int)player.controls.currentPosition;
         }
 
         private void SongsListView_DoubleClick(object sender, EventArgs e)
@@ -66,8 +76,6 @@ namespace MusicPlayer
 
         private string[] GetProperties(string path)
         {
-            FileInfo info = new FileInfo(path);
-
             TagLib.File tagFile = TagLib.File.Create(path);
             Tag tag = tagFile.Tag;
 
@@ -94,6 +102,10 @@ namespace MusicPlayer
             player.URL = path;
 
             player.controls.play();
+
+            progressUpdateTimer.Start();
+
+            IsPaused = false;
         }
 
         private void ResumePlay()
@@ -101,6 +113,8 @@ namespace MusicPlayer
             player.controls.currentPosition = timePausedAt;
 
             player.controls.play();
+
+            progressUpdateTimer.Start();
 
             IsPaused = false;
         }
@@ -117,9 +131,9 @@ namespace MusicPlayer
             {
                 string current = Paths[index];
 
-                PlayMusicFile(current);
+                SongProgressBar.Maximum = (int)player.newMedia(current).duration;
 
-                IsPaused = false;
+                PlayMusicFile(current);
 
                 // MultiSelect on SongsListView is set to false, meaning there can only be 1 selected item at a time
                 PlaybackLabel.Text = "Now playing: " + SongsListView.SelectedItems[0].Text;
@@ -135,6 +149,8 @@ namespace MusicPlayer
             IsPaused = false;
 
             PlaybackLabel.Text = "Playback stopped.";
+
+            progressUpdateTimer.Stop();
         }
 
         private void PauseButton_Click(object sender, EventArgs e)
@@ -150,6 +166,8 @@ namespace MusicPlayer
             timePausedAt = player.controls.currentPosition;
 
             player.controls.pause();
+
+            progressUpdateTimer.Stop();
         }
 
         private void VolumeBar_Scroll(object sender, EventArgs e)
